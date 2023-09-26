@@ -24,8 +24,8 @@ std::string parseString(std::string str){
     str = str.substr(1, str.size()-2);
   }
 
-  std::regex r(R"(\\(.))");
+  std::regex r(R"(\\n)");
   //TODO: replace escape characters to real escape characters
-  str = std::regex_replace(str, r, "$1");
+  str = std::regex_replace(str, r, "\n");
   return str;
 }
