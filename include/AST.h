@@ -11,6 +11,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Value.h>
 
+#include "lexer.h"
+
 class AST{
 public:
   virtual llvm::Value *codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module){
@@ -24,6 +26,7 @@ private:
   int value;
 public:
   IntegerAST(int value): value(value){};
+  IntegerAST(std::string value): value(std::stoi(value)){};
   virtual llvm::Value *codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module) override;
 };
 
@@ -69,4 +72,22 @@ public:
   ReturnAST(){value = std::make_shared<IntegerAST>(0);};
   ReturnAST(std::shared_ptr<AST> value): value(std::move(value)){};
   virtual llvm::Value *codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module) override;
+};
+
+class VarDeclAST : public AST{
+private:
+  VType type;
+  std::string name;
+  std::shared_ptr<AST> value;
+public:
+  VarDeclAST(VType type, std::string name, std::shared_ptr<AST> value): type(type), name(name), value(value){};
+  virtual llvm::Value *codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module) override;
+};
+
+class IdentifierAST{
+private:
+  std::string name;
+public:
+  IdentifierAST(std::string name): name(name){};
+  std::string getName(){return name;};
 };

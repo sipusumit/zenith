@@ -9,8 +9,14 @@
 
 using namespace nlohmann;
 
+enum class VType{
+  INT,
+  STRING
+};
+
 enum class TType{
   T_INT,
+  T_STRING,
   RETURN,
 
   INT,
@@ -22,6 +28,7 @@ enum class TType{
   RBRACE,
   LBRACE,
   SCOLON,
+  EQUALS,
 
   WS,
   NL,

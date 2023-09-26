@@ -44,3 +44,23 @@ llvm::Value *FCall::codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *build
 llvm::Value *ReturnAST::codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module){
   return builder->CreateRet(value->codegen(context, builder, module));
 }
+
+llvm::Value *VarDeclAST::codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module)
+{
+  llvm::Type *ty;
+  switch (type)
+  {
+  case VType::INT:
+    ty = builder->getInt32Ty();
+    break;
+  case VType::STRING:
+    ty = builder->getInt8PtrTy();
+    break;
+  default:
+    exit(1);
+    break;
+  }
+  llvm::Value* v = builder->CreateAlloca(ty);
+  llvm::Value* vl = value->codegen(context, builder, module);
+  return builder->CreateStore(vl,v);
+}

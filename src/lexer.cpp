@@ -4,16 +4,22 @@ fifo_map<std::string,TType> PATTERNS = {
     {R"(^\r?\n)", TType::NL},
     {R"(^\s+)", TType::WS},
     {R"(^\/\*([\S\s]*?)\*\/)", TType::WS},
+
     {R"(^\d+)", TType::INT},
     {R"(^\"(?:\\.|[^\"])*\")", TType::STRING},
+
     {R"(^int )", TType::T_INT},
+    {R"(^string )", TType::T_STRING},
     {R"(^return )", TType::RETURN},
+
     {R"(^[a-zA-Z_]+[a-zA-Z0-9_]*)", TType::IDENTIFIER},
+
     {R"(^\;)", TType::SCOLON},
     {R"(^\()", TType::LPAREN},
     {R"(^\))", TType::RPAREN},
     {R"(^\{)", TType::LBRACE},
     {R"(^\})", TType::RBRACE},
+    {R"(^\=)", TType::EQUALS},
 };
 
 

@@ -1,5 +1,4 @@
 int main(){
-  printf("Hello EveryOne\n");
-  printf("I know i am the greatest programmer that has ever lived !!!!!!!!\n");
-  return 69;
+  int a = 12;
+  return a;
 }

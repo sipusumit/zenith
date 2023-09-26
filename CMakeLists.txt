@@ -22,7 +22,7 @@ else()
   add_compile_definitions(O_EXT="out")
 endif(WIN32)
 # Main Application /===================================
-add_executable(zenith src/main.cpp src/lexer.cpp src/driver.cpp src/parser.cpp src/utils.cpp src/AST.cpp)
+add_executable(zenith src/main.cpp src/lexer.cpp src/driver.cpp src/parser.cpp src/utils.cpp src/AST.cpp src/Env.cpp)
 
 target_include_directories(zenith PRIVATE include)
 

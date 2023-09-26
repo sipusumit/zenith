@@ -31,11 +31,27 @@ void Driver::compile(){
 
   llvm::LLVMContext context = llvm::LLVMContext();
   std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("test", context);
+  module->setSourceFileName(config.inputFile);
   llvm::IRBuilder<> builder(context);
   setupstd(&context, &builder, module.get());
 
   for(auto const& s : stmts){
     s->codegen(&context, &builder, module.get());
   }
-  module->print(llvm::outs(), nullptr);
+
+  if(config.outputFile == "a." O_EXT){
+    module->print(llvm::outs(), nullptr);
+    llvm::outs().flush();
+  }
+
+  // SAVE IR TO FILE ===============================================
+  std::error_code EC;
+  llvm::raw_fd_ostream OS(config.outputFile, EC);
+  if(EC){
+    std::cout << "Error creating output stream";
+  }
+  std::cout << "Writing to file " << config.outputFile << "\n";
+  module->print(OS,nullptr);
+  OS.flush();
+  // ===============================================================
 }
