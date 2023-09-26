@@ -1,4 +1,4 @@
-![Zenith](https://github.com/sipusumit/zenith/blob/main/logo/zenith.png?raw=true)
+![Zenith](https://github.com/sipusumit/zenith/blob/main/logo/zenith-en.png?raw=true)
 
 A Toy Compiler Built using LLVM
 
