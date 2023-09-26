@@ -4,14 +4,12 @@ project(Zenith VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 set(LLVM_DIR "D:/ProgramFiles/LLVM/lib/cmake/llvm")
-# set(BOOST_DIR "D:/ProgramFiles/boost/lib/cmake/Boost-1.83.0")
-set(BOOST_ROOT "D:/ProgramFiles/boost/")
+
 set(LLVM_ROOT_DIR "D:/ProgramFiles/LLVM")
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 find_package(LLVM REQUIRED CONFIG)
-find_package(Boost COMPONENTS program_options REQUIRED )
 
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINATIONS})
@@ -26,7 +24,7 @@ endif(WIN32)
 # Main Application /===================================
 add_executable(zenith src/main.cpp src/lexer.cpp src/driver.cpp src/parser.cpp src/utils.cpp src/AST.cpp)
 
-target_include_directories(zenith PRIVATE include  ${Boost_INCLUDE_DIR})
+target_include_directories(zenith PRIVATE include)
 
 set(llvm_libs 
     LLVMX86TargetMCA
@@ -86,11 +84,10 @@ ENDFUNCTION(PREPEND_LLVM)
 
 PREPEND_LLVM(files_to_install ${llvm_libs})
 
-target_link_libraries(zenith PRIVATE
-    ${llvm_libs}
-    pthread Shell32 ole32
-    ${Boost_LIBRARIES} 
-)
+target_link_libraries(zenith PRIVATE ${llvm_libs} )
+if(WIN32)
+  target_link_libraries(zenith PRIVATE pthread Shell32 ole32)
+endif(WIN32)
 
 
 # Install ======================================
