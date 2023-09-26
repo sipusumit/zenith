@@ -1,7 +1,7 @@
 ; ModuleID = 'test'
 source_filename = ".\\examples\\test.zn"
 
-@0 = private unnamed_addr constant [12 x i8] c"hello world\00", align 1
+@0 = private unnamed_addr constant [12 x i8] c"Hello Ayush\00", align 1
 
 declare i32 @printf(ptr, ...)
 

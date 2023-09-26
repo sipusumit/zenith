@@ -24,7 +24,7 @@ endif(WIN32)
 # Main Application /===================================
 add_executable(zenith src/main.cpp src/lexer.cpp src/driver.cpp src/parser.cpp src/utils.cpp src/AST.cpp src/Env.cpp)
 
-target_include_directories(zenith PRIVATE include)
+target_include_directories(zenith PRIVATE include ${LLVM_INCLUDE_DIRS})
 
 set(llvm_libs 
     LLVMX86TargetMCA

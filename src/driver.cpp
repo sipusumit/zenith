@@ -33,10 +33,12 @@ void Driver::compile(){
   std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("test", context);
   module->setSourceFileName(config.inputFile);
   llvm::IRBuilder<> builder(context);
+  std::shared_ptr<Env> env = std::make_shared<Env>();
+  // setup standard functions
   setupstd(&context, &builder, module.get());
 
   for(auto const& s : stmts){
-    s->codegen(&context, &builder, module.get());
+    s->codegen(&context, &builder, module.get(), env);
   }
 
   if(config.outputFile == "a." O_EXT){
@@ -54,4 +56,9 @@ void Driver::compile(){
   module->print(OS,nullptr);
   OS.flush();
   // ===============================================================
+
+  // Compile to executable ==================================================
+  std::cout << "Compiling " << config.outputFile << " to a." O_EXT << "\n";
+  system(std::format("clang {}", config.outputFile).c_str());
+  // ========================================================================
 }
