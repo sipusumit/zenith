@@ -9,12 +9,12 @@ bool Env::hasVar(std::string name)
   return false;
 }
 
-void Env::addVar(std::string name, llvm::Value * value)
+void Env::addVar(std::string name, var_t value)
 {
   variables[name] = value;
 }
 
-llvm::Value *Env::getVal(std::string name)
+var_t Env::getVal(std::string name)
 {
   if(hasVar(name))
     return variables[name];
@@ -22,5 +22,5 @@ llvm::Value *Env::getVal(std::string name)
   if(parent != nullptr)
     return parent->getVal(name);
   
-  return nullptr;
+  return {};
 }

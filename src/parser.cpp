@@ -38,7 +38,7 @@ std::shared_ptr<AST> Parser::parse_stmt(){
       a =  var_or_function_decl();
       break;
     case TType::IDENTIFIER:
-      a =  parse_fcall();
+      a =  parse_ident_or_fcall();
       break;
     case TType::RETURN:
       a =  parse_return();
@@ -118,12 +118,20 @@ std::shared_ptr<VarDeclAST> Parser::var_decl(TType type, std::string name)
   eat(TType::SCOLON); // ;
   return std::make_shared<VarDeclAST>(t,name,value);
 }
+// ident_or_fcall
+//  : IDENTIFIER 
+//  | IDENTIFIER ( ) ;
+std::shared_ptr<AST> Parser::parse_ident_or_fcall(){
+  std::string name = eat(TType::IDENTIFIER).value;
+  if(tokens[0].type != TType::LPAREN)
+    return std::make_shared<IdentifierAST>(name);
+  return parse_fcall(name);
+}
 
 // fcall
 //   : IDENTIFIER ( ) ;
 //   ;
-std::shared_ptr<FCall> Parser::parse_fcall(){
-  std::string name = eat(TType::IDENTIFIER).value;
+std::shared_ptr<FCall> Parser::parse_fcall(std::string name){
   eat(TType::LPAREN); // (
   // ARGS
   std::vector<std::shared_ptr<AST>> args;

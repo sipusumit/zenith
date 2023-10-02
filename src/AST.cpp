@@ -62,11 +62,12 @@ llvm::Value *VarDeclAST::codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *
   }
   llvm::Value* v = builder->CreateAlloca(ty);
   llvm::Value* vl = value->codegen(context, builder, module, env);
-  env->addVar(name,v);
+  env->addVar(name,{.value = v, .type = ty});
   return builder->CreateStore(vl,v);
 }
 
 llvm::Value *IdentifierAST::codegen(llvm::LLVMContext *context, llvm::IRBuilder<> *builder, llvm::Module *module, std::shared_ptr<Env> env)
 {
-  return env->getVal(name);
+  var_t value = env->getVal(name);
+  return builder->CreateLoad(value.type,value.value,name);
 }
